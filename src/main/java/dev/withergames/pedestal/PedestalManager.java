@@ -11,6 +11,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.util.Transformation;
+import org.joml.AxisAngle4f;
+import org.joml.Vector3f;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,8 +21,8 @@ import java.util.UUID;
 
 public class PedestalManager implements Listener {
 
-    private withergames plugin = withergames.getPlugin();
-    private final NamespacedKey pedestalKey =  new NamespacedKey(plugin, "pedestal_id");
+    private static withergames plugin = withergames.getPlugin();
+    public static final NamespacedKey pedestalKey =  new NamespacedKey(plugin, "pedestal_id");
     private final NamespacedKey itemIdKey = new NamespacedKey(plugin, "item_type");
     private final NamespacedKey textDisplayKey = new NamespacedKey(plugin, "text_display_uuid");
     private final NamespacedKey interactionKey = new NamespacedKey(plugin, "interaction_uuid");
@@ -35,21 +38,34 @@ public class PedestalManager implements Listener {
 
         UUID pedestalId = UUID.randomUUID();
 
-        // Create pedestal base (armor stand with custom model)
-        ArmorStand base = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
+
+        BlockDisplay base = (BlockDisplay) location.getWorld().spawnEntity(location, EntityType.BLOCK_DISPLAY);
         base.setGravity(false);
-        base.setSmall(true);
+
+        Transformation transform = new Transformation(
+                new Vector3f(-0.25f, 0, -0.25f),           // translation (offset)
+                new AxisAngle4f(0, 0, 0, 1),     // left rotation (no rotation)
+                new Vector3f(0.5f, 1.0f, 0.5f),  // scale
+                new AxisAngle4f(0, 0, 0, 1)      // right rotation (no rotation)
+        );
+        base.setTransformation(transform);
+        base.setRotation(0,0);
+        base.setBlock(Material.QUARTZ_PILLAR.createBlockData());
+
         base.addScoreboardTag("pedestal");
         base.getPersistentDataContainer().set(pedestalKey, PersistentDataType.STRING, pedestalId.toString());
         base.getPersistentDataContainer().set(itemIdKey, PersistentDataType.STRING, id);
 
         // Create spinning item display
-        Location itemLoc = location.clone().add(0, 1.2, 0);
+        Location itemLoc = location.clone().add(0, 1.8, 0);
         ItemDisplay itemDisplay = (ItemDisplay) location.getWorld().spawnEntity(itemLoc, EntityType.ITEM_DISPLAY);
         itemDisplay.setItemStack(recipe.result());
         itemDisplay.setGravity(false);
+//        itemDisplay.setRotation( withergames.random.nextInt(360),0);
+        itemDisplay.setBillboard(TextDisplay.Billboard.CENTER);
         itemDisplay.setDisplayWidth(1.5f);
         itemDisplay.setDisplayHeight(1.5f);
+        itemDisplay.addScoreboardTag("spin");
 
         // Create hologram text
         Location textLoc = location.clone().add(0, 2.5, 0);
@@ -71,30 +87,35 @@ public class PedestalManager implements Listener {
         base.getPersistentDataContainer().set(itemDisplayKey, PersistentDataType.STRING, itemDisplay.getUniqueId().toString());
     }
 
-    public void refillPedestal(ArmorStand base) {
+    public boolean refillPedestal(BlockDisplay base) {
         String pedestalIdStr = base.getPersistentDataContainer().get(pedestalKey, PersistentDataType.STRING);
         String itemType = base.getPersistentDataContainer().get(itemIdKey, PersistentDataType.STRING);
 
-        if (pedestalIdStr == null || itemType == null) return;
+        if (pedestalIdStr == null || itemType == null) return false;
 
         // Check if pedestal already has entities (is already filled)
         String textDisplayIdStr = base.getPersistentDataContainer().get(textDisplayKey, PersistentDataType.STRING);
         if (textDisplayIdStr != null) {
             // Already filled, don't refill
-            return;
+            return false;
         }
 
         try {
             RecipeManager.PedestalRecipe recipe = RecipeManager.getRecipe(itemType);
-            if (recipe == null) return;
+            if (recipe == null) return false;
 
             Location location = base.getLocation();
 
             // Create spinning item display
-            Location itemLoc = location.clone().add(0, 1.2, 0);
+            Location itemLoc = location.clone().add(0, 1.8, 0);
             ItemDisplay itemDisplay = (ItemDisplay) location.getWorld().spawnEntity(itemLoc, EntityType.ITEM_DISPLAY);
             itemDisplay.setItemStack(recipe.result());
             itemDisplay.setGravity(false);
+//            itemDisplay.setRotation( withergames.random.nextInt(360),0);
+            itemDisplay.setBillboard(TextDisplay.Billboard.CENTER);
+            itemDisplay.setDisplayWidth(1.5f);
+            itemDisplay.setDisplayHeight(1.5f);
+            itemDisplay.addScoreboardTag("spin");
 
             // Create hologram text
             Location textLoc = location.clone().add(0, 2.5, 0);
@@ -115,8 +136,11 @@ public class PedestalManager implements Listener {
             base.getPersistentDataContainer().set(interactionKey, PersistentDataType.STRING, interaction.getUniqueId().toString());
             base.getPersistentDataContainer().set(itemDisplayKey, PersistentDataType.STRING, itemDisplay.getUniqueId().toString());
 
+            return true;
+
         } catch (IllegalArgumentException e) {
             plugin.getLogger().warning("Invalid item type stored in pedestal: " + itemType);
+            return false;
         }
     }
 
@@ -128,7 +152,7 @@ public class PedestalManager implements Listener {
         if (pedestalBaseIdStr == null) return;
 
         UUID pedestalBaseId = UUID.fromString(pedestalBaseIdStr);
-        ArmorStand base = (ArmorStand) Bukkit.getEntity(pedestalBaseId);
+        BlockDisplay base = (BlockDisplay) Bukkit.getEntity(pedestalBaseId);
         if (base == null) return;
 
         String itemType = base.getPersistentDataContainer().get(itemIdKey, PersistentDataType.STRING);
@@ -222,7 +246,7 @@ public class PedestalManager implements Listener {
         player.getInventory().setContents(contents);
     }
 
-    public boolean removePedestal(ArmorStand base) {
+    public boolean removePedestal(BlockDisplay base) {
         // Verify this is actually a pedestal base
         String pedestalIdStr = base.getPersistentDataContainer().get(pedestalKey, PersistentDataType.STRING);
         if (pedestalIdStr == null) {
@@ -266,14 +290,26 @@ public class PedestalManager implements Listener {
 
     // Overloaded method to remove pedestal by location (finds nearest pedestal base)
     public boolean removePedestal(Location location, double radius) {
+        BlockDisplay closestPedestal = null;
+        double closestDistance = Double.MAX_VALUE;
+
         for (Entity entity : location.getWorld().getNearbyEntities(location, radius, radius, radius)) {
-            if (entity instanceof ArmorStand stand) {
+            if (entity instanceof BlockDisplay stand) {
                 String pedestalIdStr = stand.getPersistentDataContainer().get(pedestalKey, PersistentDataType.STRING);
                 if (pedestalIdStr != null) {
-                    return removePedestal(stand);
+                    double distance = location.distanceSquared(stand.getLocation());
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        closestPedestal = stand;
+                    }
                 }
             }
         }
+
+        if (closestPedestal != null) {
+            return removePedestal(closestPedestal);
+        }
+
         return false; // No pedestal found in radius
     }
 }

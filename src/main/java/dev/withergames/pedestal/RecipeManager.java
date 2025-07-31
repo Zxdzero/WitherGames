@@ -1,12 +1,11 @@
 package dev.withergames.pedestal;
 
-import dev.withergames.items.Amulets;
+import dev.withergames.items.LegendaryWeapons;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,19 +15,22 @@ public class RecipeManager {
     private static final Map<String, PedestalRecipe> recipes = new HashMap<>();
 
     public static void initRecipes() {
-        recipes.put("diamond_sword", new PedestalRecipe(
-                new ItemStack(Material.DIAMOND_SWORD),
+        recipes.put("wonder_pickaxe", new PedestalRecipe(
+                LegendaryWeapons.wonderPickaxe(),
                 List.of(
-                        new ItemStack(Material.DIAMOND, 2),
-                        new ItemStack(Material.STICK, 1)
+                        new ItemStack(Material.DIAMOND_BLOCK, 8),
+                        new ItemStack(Material.PRISMARINE_SHARD, 18),
+                        new ItemStack(Material.ENCHANTING_TABLE, 8),
+                        new ItemStack(Material.NETHERITE_PICKAXE, 1)
                 )
         ));
 
-        recipes.put("life_amulet", new PedestalRecipe(
-                Amulets.lifeAmulet(),
+        recipes.put("soul_canister", new PedestalRecipe(
+                LegendaryWeapons.soulCanister(),
                 List.of(
-                        new ItemStack(Material.APPLE, 1),
-                        new ItemStack(Material.GOLD_INGOT, 8)
+                        new ItemStack(Material.BLAZE_ROD, 32),
+                        new ItemStack(Material.SOUL_LANTERN, 64),
+                        new ItemStack(Material.NETHER_STAR, 1)
                 )
         ));
     }

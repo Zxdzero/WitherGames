@@ -2,22 +2,20 @@ package dev.withergames.commands;
 
 import dev.withergames.pedestal.PedestalManager;
 import dev.withergames.pedestal.RecipeManager;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
-import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PedestalCommand implements CommandExecutor, TabExecutor {
     private final PedestalManager pedestalManager;
@@ -54,15 +52,31 @@ public class PedestalCommand implements CommandExecutor, TabExecutor {
                 break;
 
             case "refill":
-                // Find nearby pedestal bases
+                BlockDisplay closestPedestal = null;
+                double closestDistance = Double.MAX_VALUE;
+
                 for (Entity entity : player.getNearbyEntities(5, 5, 5)) {
-                    if (entity instanceof ArmorStand stand) {
-                        pedestalManager.refillPedestal(stand);
-                        player.sendMessage("§aPedestal refilled!");
-                        return true;
+                    if (entity instanceof BlockDisplay base) {
+                        // Check if this is actually a pedestal
+                        if (base.getPersistentDataContainer().has(PedestalManager.pedestalKey, PersistentDataType.STRING)) {
+                            double distance = player.getLocation().distanceSquared(base.getLocation());
+                            if (distance < closestDistance) {
+                                closestDistance = distance;
+                                closestPedestal = base;
+                            }
+                        }
                     }
                 }
-                player.sendMessage("§cNo pedestal found nearby!");
+
+                if (closestPedestal != null) {
+                    if (pedestalManager.refillPedestal(closestPedestal)) {
+                        player.sendMessage("§aPedestal refilled!");
+                    } else {
+                        player.sendMessage("§cThis pedestal cannot be refilled!");
+                    }
+                } else {
+                    player.sendMessage("§cNo pedestal found nearby!");
+                }
                 break;
 
             case "remove":

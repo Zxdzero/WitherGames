@@ -26,6 +26,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public final class withergames extends JavaPlugin {
 
@@ -39,6 +40,8 @@ public final class withergames extends JavaPlugin {
 
     public static NamespacedKey damageKey;
     public static NamespacedKey speedKey;
+
+    public static Random random = new Random();
 
     @Override
     public void onEnable() {
