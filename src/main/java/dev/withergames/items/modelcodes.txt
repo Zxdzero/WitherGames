@@ -1,0 +1,5 @@
+100-amulets
+200-faction weapons
+300-legendary weapons
+
+900-effects
