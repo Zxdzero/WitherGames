@@ -6,6 +6,7 @@ import dev.withergames.items.FactionWeapons;
 import dev.withergames.listeners.*;
 import dev.withergames.listeners.items.*;
 import dev.withergames.pedestal.PedestalManager;
+import dev.withergames.pedestal.RecipeManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -45,6 +46,7 @@ public final class withergames extends JavaPlugin {
         damageKey = new NamespacedKey(plugin, "attack_damage");
         speedKey = new NamespacedKey(plugin, "attack_speed");
         PedestalManager pedestalManager = new PedestalManager();
+        RecipeManager.initRecipes();
 
         getServer().getPluginManager().registerEvents(new PlayerKillListener(), this);
         getServer().getPluginManager().registerEvents(new EntityPotionEffectListener(), this);

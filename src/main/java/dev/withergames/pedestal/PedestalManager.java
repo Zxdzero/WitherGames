@@ -19,7 +19,6 @@ import java.util.UUID;
 public class PedestalManager implements Listener {
 
     private withergames plugin = withergames.getPlugin();
-    private final RecipeManager recipeManager = new RecipeManager();
     private final NamespacedKey pedestalKey =  new NamespacedKey(plugin, "pedestal_id");
     private final NamespacedKey itemIdKey = new NamespacedKey(plugin, "item_type");
     private final NamespacedKey textDisplayKey = new NamespacedKey(plugin, "text_display_uuid");
@@ -29,9 +28,9 @@ public class PedestalManager implements Listener {
 
 
     public void placePedestal(Location location, String id) {
-        RecipeManager.PedestalRecipe recipe = recipeManager.getRecipe(id);
+        RecipeManager.PedestalRecipe recipe = RecipeManager.getRecipe(id);
         if (recipe == null) {
-            return; // No recipe found
+            throw new IllegalArgumentException("Invalid pedestal id");
         }
 
         UUID pedestalId = UUID.randomUUID();
@@ -49,6 +48,8 @@ public class PedestalManager implements Listener {
         ItemDisplay itemDisplay = (ItemDisplay) location.getWorld().spawnEntity(itemLoc, EntityType.ITEM_DISPLAY);
         itemDisplay.setItemStack(recipe.result());
         itemDisplay.setGravity(false);
+        itemDisplay.setDisplayWidth(1.5f);
+        itemDisplay.setDisplayHeight(1.5f);
 
         // Create hologram text
         Location textLoc = location.clone().add(0, 2.5, 0);
@@ -84,7 +85,7 @@ public class PedestalManager implements Listener {
         }
 
         try {
-            RecipeManager.PedestalRecipe recipe = recipeManager.getRecipe(itemType);
+            RecipeManager.PedestalRecipe recipe = RecipeManager.getRecipe(itemType);
             if (recipe == null) return;
 
             Location location = base.getLocation();
@@ -134,7 +135,7 @@ public class PedestalManager implements Listener {
         if (itemType == null) return;
 
         Player player = event.getPlayer();
-        RecipeManager.PedestalRecipe recipe = recipeManager.getRecipe(itemType);
+        RecipeManager.PedestalRecipe recipe = RecipeManager.getRecipe(itemType);
         if (recipe == null) return;
 
         // Check if player has all ingredients

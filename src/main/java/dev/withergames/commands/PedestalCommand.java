@@ -1,15 +1,25 @@
 package dev.withergames.commands;
 
 import dev.withergames.pedestal.PedestalManager;
+import dev.withergames.pedestal.RecipeManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class PedestalCommand implements CommandExecutor {
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class PedestalCommand implements CommandExecutor, TabExecutor {
     private final PedestalManager pedestalManager;
 
     public PedestalCommand(PedestalManager pedestalManager) {
@@ -68,5 +78,15 @@ public class PedestalCommand implements CommandExecutor {
         }
 
         return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        if (args.length == 1) {
+            return Arrays.asList("place", "refill", "remove");
+        } else if (args.length == 2 && args[0].equals("place")) {
+            return RecipeManager.getAllRecipes();
+        }
+        return Collections.emptyList();
     }
 }

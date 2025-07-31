@@ -1,5 +1,6 @@
 package dev.withergames.pedestal;
 
+import dev.withergames.items.Amulets;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -12,9 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 public class RecipeManager {
-    private final Map<String, PedestalRecipe> recipes = new HashMap<>();
+    private static final Map<String, PedestalRecipe> recipes = new HashMap<>();
 
-    public RecipeManager() {
+    public static void initRecipes() {
         recipes.put("diamond_sword", new PedestalRecipe(
                 new ItemStack(Material.DIAMOND_SWORD),
                 List.of(
@@ -23,8 +24,8 @@ public class RecipeManager {
                 )
         ));
 
-        recipes.put("golden_apple", new PedestalRecipe(
-                new ItemStack(Material.GOLDEN_APPLE),
+        recipes.put("life_amulet", new PedestalRecipe(
+                Amulets.lifeAmulet(),
                 List.of(
                         new ItemStack(Material.APPLE, 1),
                         new ItemStack(Material.GOLD_INGOT, 8)
@@ -32,8 +33,12 @@ public class RecipeManager {
         ));
     }
 
-    public PedestalRecipe getRecipe(String id) {
+    public static PedestalRecipe getRecipe(String id) {
         return recipes.get(id);
+    }
+
+    public static List<String> getAllRecipes() {
+        return recipes.keySet().stream().toList();
     }
 
     public record PedestalRecipe(ItemStack result, List<ItemStack> ingredients) {
