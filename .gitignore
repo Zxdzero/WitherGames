@@ -1,6 +1,5 @@
 # Gradle
 .gradle
-.gradle/
 
 # VSCode
 .settings/
@@ -44,3 +43,6 @@ $RECYCLE.BIN/
 
 # Mac
 .DS_Store
+/.gradle
+/.idea
+/build
