@@ -46,6 +46,7 @@ public class RecipeManager {
                 TextComponent.Builder text = Component.text();
                 text.append(result.displayName().color(NamedTextColor.GOLD));
                 for (ItemStack ingredient : ingredients) {
+                    text.append(Component.text("\n"));
                     text.append(Component.text(ingredient.getAmount() + "x " + ingredient.getType().name().replace("_", " "), NamedTextColor.GREEN));
                 }
                 return text.build();

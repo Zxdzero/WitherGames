@@ -21,7 +21,7 @@ public class PedestalManager implements Listener {
     private withergames plugin = withergames.getPlugin();
     private final RecipeManager recipeManager = new RecipeManager();
     private final NamespacedKey pedestalKey =  new NamespacedKey(plugin, "pedestal_id");
-    private final NamespacedKey itemTypeKey = new NamespacedKey(plugin, "item_type");
+    private final NamespacedKey itemIdKey = new NamespacedKey(plugin, "item_type");
     private final NamespacedKey textDisplayKey = new NamespacedKey(plugin, "text_display_uuid");
     private final NamespacedKey interactionKey = new NamespacedKey(plugin, "interaction_uuid");
     private final NamespacedKey itemDisplayKey = new NamespacedKey(plugin, "item_display_uuid");
@@ -38,12 +38,11 @@ public class PedestalManager implements Listener {
 
         // Create pedestal base (armor stand with custom model)
         ArmorStand base = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
-        base.setVisible(false);
         base.setGravity(false);
         base.setSmall(true);
         base.addScoreboardTag("pedestal");
         base.getPersistentDataContainer().set(pedestalKey, PersistentDataType.STRING, pedestalId.toString());
-        base.getPersistentDataContainer().set(itemTypeKey, PersistentDataType.STRING, id);
+        base.getPersistentDataContainer().set(itemIdKey, PersistentDataType.STRING, id);
 
         // Create spinning item display
         Location itemLoc = location.clone().add(0, 1.2, 0);
@@ -73,9 +72,9 @@ public class PedestalManager implements Listener {
 
     public void refillPedestal(ArmorStand base) {
         String pedestalIdStr = base.getPersistentDataContainer().get(pedestalKey, PersistentDataType.STRING);
-        String itemTypeStr = base.getPersistentDataContainer().get(itemTypeKey, PersistentDataType.STRING);
+        String itemType = base.getPersistentDataContainer().get(itemIdKey, PersistentDataType.STRING);
 
-        if (pedestalIdStr == null || itemTypeStr == null) return;
+        if (pedestalIdStr == null || itemType == null) return;
 
         // Check if pedestal already has entities (is already filled)
         String textDisplayIdStr = base.getPersistentDataContainer().get(textDisplayKey, PersistentDataType.STRING);
@@ -85,7 +84,6 @@ public class PedestalManager implements Listener {
         }
 
         try {
-            Material itemType = Material.valueOf(itemTypeStr);
             RecipeManager.PedestalRecipe recipe = recipeManager.getRecipe(itemType);
             if (recipe == null) return;
 
@@ -117,7 +115,7 @@ public class PedestalManager implements Listener {
             base.getPersistentDataContainer().set(itemDisplayKey, PersistentDataType.STRING, itemDisplay.getUniqueId().toString());
 
         } catch (IllegalArgumentException e) {
-            plugin.getLogger().warning("Invalid item type stored in pedestal: " + itemTypeStr);
+            plugin.getLogger().warning("Invalid item type stored in pedestal: " + itemType);
         }
     }
 
@@ -132,10 +130,9 @@ public class PedestalManager implements Listener {
         ArmorStand base = (ArmorStand) Bukkit.getEntity(pedestalBaseId);
         if (base == null) return;
 
-        String itemTypeStr = base.getPersistentDataContainer().get(itemTypeKey, PersistentDataType.STRING);
-        if (itemTypeStr == null) return;
+        String itemType = base.getPersistentDataContainer().get(itemIdKey, PersistentDataType.STRING);
+        if (itemType == null) return;
 
-        Material itemType = Material.valueOf(itemTypeStr);
         Player player = event.getPlayer();
         RecipeManager.PedestalRecipe recipe = recipeManager.getRecipe(itemType);
         if (recipe == null) return;
@@ -224,5 +221,58 @@ public class PedestalManager implements Listener {
         player.getInventory().setContents(contents);
     }
 
+    public boolean removePedestal(ArmorStand base) {
+        // Verify this is actually a pedestal base
+        String pedestalIdStr = base.getPersistentDataContainer().get(pedestalKey, PersistentDataType.STRING);
+        if (pedestalIdStr == null) {
+            return false; // Not a pedestal
+        }
 
+        // Get and remove associated entities using stored UUIDs
+        String textDisplayIdStr = base.getPersistentDataContainer().get(textDisplayKey, PersistentDataType.STRING);
+        String interactionIdStr = base.getPersistentDataContainer().get(interactionKey, PersistentDataType.STRING);
+        String itemDisplayIdStr = base.getPersistentDataContainer().get(itemDisplayKey, PersistentDataType.STRING);
+
+        // Remove text display
+        if (textDisplayIdStr != null) {
+            TextDisplay textDisplay = (TextDisplay) Bukkit.getEntity(UUID.fromString(textDisplayIdStr));
+            if (textDisplay != null) {
+                textDisplay.remove();
+            }
+        }
+
+        // Remove interaction entity
+        if (interactionIdStr != null) {
+            Interaction interaction = (Interaction) Bukkit.getEntity(UUID.fromString(interactionIdStr));
+            if (interaction != null) {
+                interaction.remove();
+            }
+        }
+
+        // Remove item display
+        if (itemDisplayIdStr != null) {
+            ItemDisplay itemDisplay = (ItemDisplay) Bukkit.getEntity(UUID.fromString(itemDisplayIdStr));
+            if (itemDisplay != null) {
+                itemDisplay.remove();
+            }
+        }
+
+        // Finally remove the base itself
+        base.remove();
+
+        return true; // Successfully removed
+    }
+
+    // Overloaded method to remove pedestal by location (finds nearest pedestal base)
+    public boolean removePedestal(Location location, double radius) {
+        for (Entity entity : location.getWorld().getNearbyEntities(location, radius, radius, radius)) {
+            if (entity instanceof ArmorStand stand) {
+                String pedestalIdStr = stand.getPersistentDataContainer().get(pedestalKey, PersistentDataType.STRING);
+                if (pedestalIdStr != null) {
+                    return removePedestal(stand);
+                }
+            }
+        }
+        return false; // No pedestal found in radius
+    }
 }

@@ -18,4 +18,4 @@ commands:
     permission: withergames.command.reset
   pedestal:
     description: Manage pedestals
-    usage: /pedestal <place|refill> [item_type]
+    usage: /pedestal <place|refill|remove> [item_type]

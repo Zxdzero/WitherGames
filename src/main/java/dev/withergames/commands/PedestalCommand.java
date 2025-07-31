@@ -24,7 +24,7 @@ public class PedestalCommand implements CommandExecutor {
         }
 
         if (args.length == 0) {
-            player.sendMessage("§cUsage: /pedestal <place|refill> [item_type]");
+            player.sendMessage("§cUsage: /pedestal <place|refill|remove> [item_type]");
             return true;
         }
 
@@ -55,8 +55,16 @@ public class PedestalCommand implements CommandExecutor {
                 player.sendMessage("§cNo pedestal found nearby!");
                 break;
 
+            case "remove":
+                if (pedestalManager.removePedestal(player.getLocation(), 5.0)) {
+                    player.sendMessage("§aPedestal removed!");
+                } else {
+                    player.sendMessage("§cNo pedestal found nearby!");
+                }
+                break;
+
             default:
-                player.sendMessage("§cUsage: /pedestal <place|refill> [item_type]");
+                player.sendMessage("§cUsage: /pedestal <place|refill|remove> [item_type]");
         }
 
         return true;
