@@ -17,35 +17,24 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class ItemsMenuManager implements Listener {
 
-    private final withergames plugin = withergames.getPlugin();
+    private static final withergames plugin = withergames.getPlugin();
 
-    /**
-     * Registers the main WitherGames items menu with the API registry.
-     * Call this in your plugin's onEnable() method.
-     */
-    public void registerMenus() {
+    public static void registerMenus() {
         // Register the main WitherGames items menu (the original menu functionality)
         ItemMenuRegistry.registerItemMenu(
                 plugin,
                 "withergames_items",
                 new ItemStack(Material.NETHER_STAR),
                 Component.text("Withergames Items", NamedTextColor.GOLD),
-                this::createWitherGamesItemsMenu
+                ItemsMenuManager::createWitherGamesItemsMenu
         );
     }
 
-    /**
-     * Unregisters all menus when plugin disables.
-     * Call this in your plugin's onDisable() method.
-     */
     public void unregisterMenus() {
         ItemMenuRegistry.unregisterMenusFromPlugin(plugin);
     }
 
-    /**
-     * Creates the main WitherGames items menu (replicates the original /item command functionality)
-     */
-    private Inventory createWitherGamesItemsMenu() {
+    private static Inventory createWitherGamesItemsMenu() {
         Inventory itemsMenu = Bukkit.createInventory(null, 9, Component.text("Withergames Items"));
 
         ItemStack amuletsButton = new ItemStack(Material.AMETHYST_BLOCK);

@@ -54,7 +54,6 @@ public final class withergames extends JavaPlugin {
         plugin = this;
         damageKey = new NamespacedKey(plugin, "attack_damage");
         speedKey = new NamespacedKey(plugin, "attack_speed");
-        ItemsMenuManager itemsMenuManager = new ItemsMenuManager();
 
         getServer().getPluginManager().registerEvents(new PlayerKillListener(), this);
         getServer().getPluginManager().registerEvents(new EntityPotionEffectListener(), this);
@@ -66,13 +65,13 @@ public final class withergames extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DartGunListener(), this);
         getServer().getPluginManager().registerEvents(new WonderPickaxeListener(), this);
         getServer().getPluginManager().registerEvents(new SoulCanisterListener(), this);
-        getServer().getPluginManager().registerEvents(itemsMenuManager, this);
+        getServer().getPluginManager().registerEvents(new ItemsMenuManager(), this);
 
         getCommand("tip").setExecutor(new TipCommand());
         getCommand("hearts").setExecutor(new HeartsCommand());
         getCommand("reset").setExecutor(new ResetCommand());
 
-        itemsMenuManager.registerMenus();
+        ItemsMenuManager.registerMenus();
 
         RecipeManager.registerRecipe(this, "wonder_pickaxe", new RecipeManager.PedestalRecipe(
                 LegendaryWeapons.wonderPickaxe(),
