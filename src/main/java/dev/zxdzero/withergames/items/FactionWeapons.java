@@ -1,5 +1,6 @@
 package dev.zxdzero.withergames.items;
 
+import dev.zxdzero.ZxdzeroEvents.registries.ItemActionRegistry;
 import dev.zxdzero.withergames.withergames;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

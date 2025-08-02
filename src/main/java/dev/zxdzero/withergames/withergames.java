@@ -62,7 +62,6 @@ public final class withergames extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new PlayerKillListener(), this);
         getServer().getPluginManager().registerEvents(new EntityPotionEffectListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
         getServer().getPluginManager().registerEvents(new BlazeAmuletListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
         getServer().getPluginManager().registerEvents(new TormentFeatherListener(), this);
