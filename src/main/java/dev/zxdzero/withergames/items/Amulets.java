@@ -11,6 +11,7 @@ import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.components.CustomModelDataComponent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -44,9 +45,9 @@ public final class Amulets {
     public static void registerBehavior() {
 
         // Life Amulet
-        ItemActionRegistry.register(1001, (player, item) -> {
+        ItemActionRegistry.register(lifeAmulet(), (player, item) -> {
             if (checkCooldown(player)) {
-                Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_ABSORPTION)).setBaseValue(12);
+                Objects.requireNonNull(player.getAttribute(Attribute.MAX_ABSORPTION)).setBaseValue(12);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 100, 0));
                 player.getWorld().playSound(player.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_CHIME, 6.0f, 1.0f);
                 new BukkitRunnable() {
@@ -92,7 +93,7 @@ public final class Amulets {
         });
 
         //Blaze Amulet
-        ItemActionRegistry.register(1002, (player, item) -> {
+        ItemActionRegistry.register(blazeAmulet(), (player, item) -> {
             if (checkCooldown(player)) {
                 Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
                 Objective objective = scoreboard.getObjective("blaze_ticks");
@@ -119,7 +120,7 @@ public final class Amulets {
         });
 
         //Frost Amulet
-        ItemActionRegistry.register(1003, (player, item) -> {
+        ItemActionRegistry.register(frostAmulet(), (player, item) -> {
             if (checkCooldown(player)) {
                 final int totalShots = 10;
                 final int delayBetweenShots = 5;
@@ -183,7 +184,7 @@ public final class Amulets {
         });
 
         //Void Amulet
-        ItemActionRegistry.register(1004, ((player, itemStack) -> {
+        ItemActionRegistry.register(voidAmulet(), ((player, itemStack) -> {
             if (checkCooldown(player)) {
                 player.getWorld().spawnParticle(
                         Particle.DRAGON_BREATH, // purple-ish particle like totem effect
@@ -204,7 +205,9 @@ public final class Amulets {
         ItemStack amulet = new ItemStack(Material.AMETHYST_SHARD);
         ItemMeta meta = amulet.getItemMeta();
         meta.displayName(Component.text("Life Amulet").decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, true));
-        meta.setCustomModelData(1001);
+        CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
+        customModelData.setFloats(List.of(1001f));
+        meta.setCustomModelDataComponent(customModelData);
         meta.lore(withergames.loreBuilder(List.of(
                 "6 absorption hearts",
                 "Regen for 5 seconds"
@@ -218,7 +221,9 @@ public final class Amulets {
         ItemStack amulet = new ItemStack(Material.AMETHYST_SHARD);
         ItemMeta meta = amulet.getItemMeta();
         meta.displayName(Component.text("Blaze Amulet").decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, true));
-        meta.setCustomModelData(1002);
+        CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
+        customModelData.setFloats(List.of(1002f));
+        meta.setCustomModelDataComponent(customModelData);
         meta.lore(withergames.loreBuilder(List.of(
                 "When right clicked | Gives user 60 seconds of blaze powers.",
                 "Flaming attacks",
@@ -233,7 +238,9 @@ public final class Amulets {
         ItemStack amulet = new ItemStack(Material.AMETHYST_SHARD);
         ItemMeta meta = amulet.getItemMeta();
         meta.displayName(Component.text("Frost Amulet").decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, true));
-        meta.setCustomModelData(1003);
+        CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
+        customModelData.setFloats(List.of(1003f));
+        meta.setCustomModelDataComponent(customModelData);
         meta.lore(withergames.loreBuilder(List.of(
                 "Spew forth powder snow"
         )));
@@ -246,7 +253,9 @@ public final class Amulets {
         ItemStack amulet = new ItemStack(Material.AMETHYST_SHARD);
         ItemMeta meta = amulet.getItemMeta();
         meta.displayName(Component.text("Void Amulet").decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, true));
-        meta.setCustomModelData(1004);
+        CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
+        customModelData.setFloats(List.of(1004f));
+        meta.setCustomModelDataComponent(customModelData);
         meta.lore(withergames.loreBuilder(List.of(
                 "Ring of void damage",
                 "12x12 area"

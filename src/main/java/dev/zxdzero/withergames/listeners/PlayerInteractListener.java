@@ -22,7 +22,7 @@ public class PlayerInteractListener implements Listener {
             ItemMeta meta = item.getItemMeta();
             if (!meta.hasCustomModelData()) return;
 
-            BiConsumer<Player, ItemStack> action = ItemActionRegistry.getAction(meta.getCustomModelData());
+            BiConsumer<Player, ItemStack> action = ItemActionRegistry.getAction(meta.getCustomModelDataComponent());
             if (action != null) {
                 action.accept(e.getPlayer(), item);
                 e.setCancelled(true); // Prevent default use

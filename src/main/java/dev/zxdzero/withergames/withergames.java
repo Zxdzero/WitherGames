@@ -17,7 +17,7 @@ import dev.zxdzero.withergames.listeners.items.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault2.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -119,7 +119,7 @@ public final class withergames extends JavaPlugin {
                         int worthiness = getPoints(player);
                         double balance = 0;
                         try {
-                            balance = econ.getBalance(player);
+                            balance = econ.balance("withergames", player.getUniqueId()).doubleValue();
                         } catch (Exception ignored) {
                         }
 
@@ -153,8 +153,8 @@ public final class withergames extends JavaPlugin {
     }
 
     public static void modifyHearts(Player target, double amount) {
-        double attackerHealth = Objects.requireNonNull(target.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
-        Objects.requireNonNull(target.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(attackerHealth + amount);
+        double attackerHealth = Objects.requireNonNull(target.getAttribute(Attribute.MAX_HEALTH)).getValue();
+        Objects.requireNonNull(target.getAttribute(Attribute.MAX_HEALTH)).setBaseValue(attackerHealth + amount);
         if (amount > 0) {
             target.setHealth(target.getHealth() + amount);
         }
@@ -171,13 +171,13 @@ public final class withergames extends JavaPlugin {
     }
 
     public static ItemMeta weaponBuilder(ItemMeta meta, int attackDamage, double attackSpeed) {
-        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(
+        meta.addAttributeModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
                 withergames.damageKey,
                 attackDamage,
                 AttributeModifier.Operation.ADD_NUMBER,
                 EquipmentSlotGroup.MAINHAND
         ));
-        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(
+        meta.addAttributeModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
                 withergames.speedKey,
                 attackSpeed - 4.0,
                 AttributeModifier.Operation.ADD_NUMBER,

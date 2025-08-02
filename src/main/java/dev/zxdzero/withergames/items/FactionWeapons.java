@@ -11,6 +11,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.components.CustomModelDataComponent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -43,7 +44,7 @@ public class FactionWeapons {
     public static void registerBehavior() {
 
         // Glacial Scythe
-        ItemActionRegistry.register(2002, (player, item) -> {
+        ItemActionRegistry.register(glacialScythe(), (player, item) -> {
             if (checkCooldown(player)) {
                 player.getWorld().spawnParticle(Particle.SNOWFLAKE, player.getLocation(), 80, 2, 1.5, 2, 0.1);
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1f, 1.0f);
@@ -88,7 +89,7 @@ public class FactionWeapons {
         });
 
         // Feather of Torment
-        ItemActionRegistry.register(2003, (player, item) -> {
+        ItemActionRegistry.register(feather(), (player, item) -> {
             if (checkCooldown(player)) {
 
                 player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BREEZE_IDLE_AIR, 0.6f, 2.0f);
@@ -148,7 +149,7 @@ public class FactionWeapons {
         });
 
         // Ghost Knife
-        ItemActionRegistry.register(2004, (player, item) -> {
+        ItemActionRegistry.register(ghostKnife(), (player, item) -> {
             if (checkCooldown(player, 900)) {
                 player.addPotionEffect(new PotionEffect(
                         PotionEffectType.INVISIBILITY,
@@ -198,7 +199,9 @@ public class FactionWeapons {
         ItemStack gun = new ItemStack(Material.CROSSBOW);
         ItemMeta meta = gun.getItemMeta();
         meta.displayName(Component.text("Dart Gun").decoration(TextDecoration.ITALIC, false));
-        meta.setCustomModelData(2001);
+        CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
+        customModelData.setFloats(List.of(2001f));
+        meta.setCustomModelDataComponent(customModelData);
         meta.lore(withergames.loreBuilder(List.of(
                 "5 rapid fire poison darts"
         )));
@@ -211,7 +214,9 @@ public class FactionWeapons {
         ItemStack scythe = new ItemStack(Material.PITCHER_POD);
         ItemMeta meta = scythe.getItemMeta();
         meta.displayName(Component.text("Glacial Scythe").decoration(TextDecoration.ITALIC, false));
-        meta.setCustomModelData(2002);
+        CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
+        customModelData.setFloats(List.of(2002f));
+        meta.setCustomModelDataComponent(customModelData);
         meta = withergames.weaponBuilder(meta, 7, 1.6);
         meta.lore(withergames.loreBuilder(List.of(
                 "Sweeping attack",
@@ -225,7 +230,9 @@ public class FactionWeapons {
         ItemStack feather = new ItemStack(Material.PITCHER_POD);
         ItemMeta meta = feather.getItemMeta();
         meta.displayName(Component.text("Feather of Torment").decoration(TextDecoration.ITALIC, false));
-        meta.setCustomModelData(2003);
+        CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
+        customModelData.setFloats(List.of(2003f));
+        meta.setCustomModelDataComponent(customModelData);
         meta.lore(withergames.loreBuilder(List.of(
                 "Speed 5 for quick getaway",
                 "Weakness 5"
@@ -239,7 +246,9 @@ public class FactionWeapons {
         ItemStack knife = new ItemStack(Material.PITCHER_POD);
         ItemMeta meta = knife.getItemMeta();
         meta.displayName(Component.text("Ghost Knife").decoration(TextDecoration.ITALIC, false));
-        meta.setCustomModelData(2004);
+        CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
+        customModelData.setFloats(List.of(2004f));
+        meta.setCustomModelDataComponent(customModelData);
         meta = withergames.weaponBuilder(meta, 6, 2.0);
         meta.lore(withergames.loreBuilder(List.of(
                 "Temporary invisibility"

@@ -59,7 +59,7 @@ public final class HeartsCommand implements CommandExecutor, TabExecutor {
         } else if (action.equals("remove")) {
             amount = value * -2;
         } else if (action.equals("set")) {
-            amount = (int) (value*2 - Objects.requireNonNull(target.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+            amount = (int) (value*2 - Objects.requireNonNull(target.getAttribute(Attribute.MAX_HEALTH)).getValue());
         } else {
             sender.sendMessage(Component.text("Unknown action: use 'add' or 'remove'", NamedTextColor.RED));
             return true;
