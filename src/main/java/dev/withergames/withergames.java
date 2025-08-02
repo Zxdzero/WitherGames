@@ -3,13 +3,12 @@ package dev.withergames;
 import dev.withergames.commands.*;
 import dev.withergames.items.Amulets;
 import dev.withergames.items.FactionWeapons;
+import dev.withergames.items.ItemsMenuManager;
 import dev.withergames.items.LegendaryWeapons;
 import dev.withergames.listeners.*;
 import dev.withergames.listeners.items.*;
-//import dev.withergames.pedestal.PedestalManager;
-//import dev.withergames.pedestal.RecipeManager;
-import dev.zxdzero.pedestal.RecipeManager;
-import dev.zxdzero.pedestal.RecipeManager.PedestalRecipe;
+import dev.zxdzero.registries.RecipeManager;
+import dev.zxdzero.registries.RecipeManager.PedestalRecipe;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -55,25 +54,27 @@ public final class withergames extends JavaPlugin {
         plugin = this;
         damageKey = new NamespacedKey(plugin, "attack_damage");
         speedKey = new NamespacedKey(plugin, "attack_speed");
+        ItemsMenuManager itemsMenuManager = new ItemsMenuManager();
 
         getServer().getPluginManager().registerEvents(new PlayerKillListener(), this);
         getServer().getPluginManager().registerEvents(new EntityPotionEffectListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
         getServer().getPluginManager().registerEvents(new BlazeAmuletListener(), this);
-        getServer().getPluginManager().registerEvents(new ItemsCommand(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
         getServer().getPluginManager().registerEvents(new TormentFeatherListener(), this);
         getServer().getPluginManager().registerEvents(new CommandListener(), this);
         getServer().getPluginManager().registerEvents(new DartGunListener(), this);
         getServer().getPluginManager().registerEvents(new WonderPickaxeListener(), this);
         getServer().getPluginManager().registerEvents(new SoulCanisterListener(), this);
+        getServer().getPluginManager().registerEvents(itemsMenuManager, this);
 
         getCommand("tip").setExecutor(new TipCommand());
         getCommand("hearts").setExecutor(new HeartsCommand());
-        getCommand("test").setExecutor(new ItemsCommand());
         getCommand("reset").setExecutor(new ResetCommand());
 
-        RecipeManager.registerRecipe(this, "wonder_pickaxe", new PedestalRecipe(
+        itemsMenuManager.registerMenus();
+
+        RecipeManager.registerRecipe(this, "wonder_pickaxe", new RecipeManager.PedestalRecipe(
                 LegendaryWeapons.wonderPickaxe(),
                 List.of(
                         new ItemStack(Material.DIAMOND_BLOCK, 8),
