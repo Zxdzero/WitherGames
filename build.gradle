@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'net.pd98'
-version = '7.0'
+version = '8.0'
 
 repositories {
     mavenCentral()
@@ -22,6 +22,7 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
+    implementation "dev.zxdzero:Zxdzero Events"
 }
 
 tasks {

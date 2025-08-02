@@ -3,21 +3,26 @@ package dev.withergames;
 import dev.withergames.commands.*;
 import dev.withergames.items.Amulets;
 import dev.withergames.items.FactionWeapons;
+import dev.withergames.items.LegendaryWeapons;
 import dev.withergames.listeners.*;
 import dev.withergames.listeners.items.*;
-import dev.withergames.pedestal.PedestalManager;
-import dev.withergames.pedestal.RecipeManager;
+//import dev.withergames.pedestal.PedestalManager;
+//import dev.withergames.pedestal.RecipeManager;
+import dev.zxdzero.pedestal.RecipeManager;
+import dev.zxdzero.pedestal.RecipeManager.PedestalRecipe;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -41,6 +46,8 @@ public final class withergames extends JavaPlugin {
     public static NamespacedKey damageKey;
     public static NamespacedKey speedKey;
 
+    private boolean showWorthiness;
+
     public static Random random = new Random();
 
     @Override
@@ -48,32 +55,49 @@ public final class withergames extends JavaPlugin {
         plugin = this;
         damageKey = new NamespacedKey(plugin, "attack_damage");
         speedKey = new NamespacedKey(plugin, "attack_speed");
-        PedestalManager pedestalManager = new PedestalManager();
-        RecipeManager.initRecipes();
 
         getServer().getPluginManager().registerEvents(new PlayerKillListener(), this);
         getServer().getPluginManager().registerEvents(new EntityPotionEffectListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
         getServer().getPluginManager().registerEvents(new BlazeAmuletListener(), this);
-        getServer().getPluginManager().registerEvents(new TestCommand(), this);
+        getServer().getPluginManager().registerEvents(new ItemsCommand(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
         getServer().getPluginManager().registerEvents(new TormentFeatherListener(), this);
         getServer().getPluginManager().registerEvents(new CommandListener(), this);
         getServer().getPluginManager().registerEvents(new DartGunListener(), this);
         getServer().getPluginManager().registerEvents(new WonderPickaxeListener(), this);
         getServer().getPluginManager().registerEvents(new SoulCanisterListener(), this);
-        getServer().getPluginManager().registerEvents(pedestalManager, this);
 
         getCommand("tip").setExecutor(new TipCommand());
         getCommand("hearts").setExecutor(new HeartsCommand());
-        getCommand("test").setExecutor(new TestCommand());
+        getCommand("test").setExecutor(new ItemsCommand());
         getCommand("reset").setExecutor(new ResetCommand());
-        getCommand("pedestal").setExecutor(new PedestalCommand(pedestalManager));
+
+        RecipeManager.registerRecipe(this, "wonder_pickaxe", new PedestalRecipe(
+                LegendaryWeapons.wonderPickaxe(),
+                List.of(
+                        new ItemStack(Material.DIAMOND_BLOCK, 8),
+                        new ItemStack(Material.PRISMARINE_SHARD, 16),
+                        new ItemStack(Material.ENCHANTING_TABLE, 8),
+                        new ItemStack(Material.NETHERITE_PICKAXE, 1)
+                )
+        ));
+        RecipeManager.registerRecipe(this, "soul_canister", new PedestalRecipe(
+                LegendaryWeapons.soulCanister(),
+                List.of(
+                        new ItemStack(Material.BLAZE_ROD, 32),
+                        new ItemStack(Material.SOUL_LANTERN, 64),
+                        new ItemStack(Material.NETHER_STAR, 1)
+                )
+        ));
 
         Amulets.registerBehavior();
         FactionWeapons.registerBehavior();
 
-        SoulCanisterListener.   startStatusEffectUpdater();
+        SoulCanisterListener.startStatusEffectUpdater();
+
+        saveDefaultConfig();
+        showWorthiness = getConfig().getBoolean("show-worthiness");
 
         if (!setupEconomy()) {
             getLogger().severe("No Vault-compatible economy plugin found!");
@@ -83,22 +107,28 @@ public final class withergames extends JavaPlugin {
 
         // Repeating task every second
         Bukkit.getScheduler().runTaskTimer(this, () -> {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                int worthiness = getPoints(player);
-                double balance = 0;
-                try {
-                    balance = econ.getBalance(player);
-                } catch (Exception ignored) { }
+            if (showWorthiness) {
 
-                Component message = Component.text()
-                        .append(Component.text("Coins: $", NamedTextColor.GREEN))
-                        .append(Component.text(Math.round(balance), NamedTextColor.GREEN))
-                        .append(Component.text(" | ", NamedTextColor.GRAY))
-                        .append(Component.text("Worthiness: ", NamedTextColor.GOLD))
-                        .append(Component.text(worthiness + "%", NamedTextColor.YELLOW))
-                        .build();
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (player.getWorld().getName().contains("THINGWHY")) {
+                        int worthiness = getPoints(player);
+                        double balance = 0;
+                        try {
+                            balance = econ.getBalance(player);
+                        } catch (Exception ignored) {
+                        }
 
-                player.sendActionBar(message);
+                        Component message = Component.text()
+                                .append(Component.text("Coins: $", NamedTextColor.GREEN))
+                                .append(Component.text(Math.round(balance), NamedTextColor.GREEN))
+                                .append(Component.text(" | ", NamedTextColor.GRAY))
+                                .append(Component.text("Worthiness: ", NamedTextColor.GOLD))
+                                .append(Component.text(worthiness + "%", NamedTextColor.YELLOW))
+                                .build();
+
+                        player.sendActionBar(message);
+                    }
+                }
             }
         }, 0L, 20L); // 20 ticks = 1 second
     }

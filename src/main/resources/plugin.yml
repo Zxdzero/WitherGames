@@ -1,8 +1,9 @@
 name: withergames
-version: '7.0'
+version: '8.0'
 main: dev.withergames.withergames
+authors: [Puzzle_Dude98]
 api-version: '1.21'
-depend: [Vault]
+depend: [Vault, ZxdzeroEvents]
 commands:
   tip:
     description: Tips your arrows (if you are at 75% worthiness)
@@ -10,12 +11,10 @@ commands:
     usage: /hearts [add|remove|reset] <amount> [player]
     description: Adds or removes hearts from a player
     permission: withergames.command.hearts
-  test:
-    usage: /test
-    permission: withergames.command.test
+  items:
+    usage: /items
+    aliases: [test]
+    permission: withergames.command.items
   reset:
     usage: /reset [amulet|faction_weapon]
     permission: withergames.command.reset
-  pedestal:
-    description: Manage pedestals
-    usage: /pedestal <place|refill|remove> [item_type]

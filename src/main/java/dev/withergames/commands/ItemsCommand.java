@@ -19,9 +19,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
-public class TestCommand implements CommandExecutor, Listener {
+public class ItemsCommand implements CommandExecutor, Listener {
 
-    private Inventory testMenu;
+    private Inventory itemsMenu;
 
     private Inventory amuletsMenu() {
         Inventory inv = Bukkit.createInventory(null, 9, Component.text("Amulets"));
@@ -48,8 +48,8 @@ public class TestCommand implements CommandExecutor, Listener {
         return inv;
     }
 
-    public TestCommand() {
-        testMenu = Bukkit.createInventory(null, 9, Component.text("Test Menu"));
+    public ItemsCommand() {
+        itemsMenu = Bukkit.createInventory(null, 9, Component.text("Items Menu"));
 
         ItemStack amuletsButton = new ItemStack(Material.AMETHYST_BLOCK);
         ItemMeta amuletMeta = amuletsButton.getItemMeta();
@@ -66,16 +66,16 @@ public class TestCommand implements CommandExecutor, Listener {
         legendaryMeta.displayName(Component.text("Legendary Weapons", NamedTextColor.YELLOW));
         legendaryButton.setItemMeta(legendaryMeta);
 
-        testMenu.setItem(2, amuletsButton);
-        testMenu.setItem(4, factionsButton);
-        testMenu.setItem(6, legendaryButton);
+        itemsMenu.setItem(2, amuletsButton);
+        itemsMenu.setItem(4, factionsButton);
+        itemsMenu.setItem(6, legendaryButton);
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (commandSender instanceof Player player) {
 //            player.getInventory().addItem(Amulets.lifeAmulet());
-            player.openInventory(testMenu);
+            player.openInventory(itemsMenu);
         }
         return true;
     }
@@ -85,7 +85,7 @@ public class TestCommand implements CommandExecutor, Listener {
         if (!(event.getWhoClicked() instanceof Player player)) return;
 
         // Main Menu
-        if (event.getView().title().equals(Component.text("Test Menu"))) {
+        if (event.getView().title().equals(Component.text("Items Menu"))) {
             event.setCancelled(true); // Prevent taking the button
 
             if (event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.AMETHYST_BLOCK) {
