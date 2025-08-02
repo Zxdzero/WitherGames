@@ -1,7 +1,7 @@
-package dev.withergames.listeners.items;
+package dev.zxdzero.withergames.listeners.items;
 
-import dev.withergames.items.LegendaryWeapons;
-import dev.withergames.withergames;
+import dev.zxdzero.withergames.items.LegendaryWeapons;
+import dev.zxdzero.withergames.withergames;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;

@@ -1,4 +1,4 @@
-package dev.withergames.items;
+package dev.zxdzero.withergames.items;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

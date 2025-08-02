@@ -1,4 +1,4 @@
-package dev.withergames.listeners.items;
+package dev.zxdzero.withergames.listeners.items;
 
 import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Player;

@@ -1,6 +1,6 @@
-package dev.withergames.listeners;
+package dev.zxdzero.withergames.listeners;
 
-import dev.withergames.withergames;
+import dev.zxdzero.withergames.withergames;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

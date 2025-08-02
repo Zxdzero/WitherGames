@@ -1,4 +1,4 @@
-package dev.withergames.commands;
+package dev.zxdzero.withergames.commands;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;

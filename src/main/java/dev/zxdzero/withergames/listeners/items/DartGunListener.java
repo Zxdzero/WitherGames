@@ -1,6 +1,6 @@
-package dev.withergames.listeners.items;
+package dev.zxdzero.withergames.listeners.items;
 
-import dev.withergames.withergames;
+import dev.zxdzero.withergames.withergames;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;

@@ -1,14 +1,19 @@
-package dev.withergames;
+package dev.zxdzero.withergames;
 
-import dev.withergames.commands.*;
-import dev.withergames.items.Amulets;
-import dev.withergames.items.FactionWeapons;
-import dev.withergames.items.ItemsMenuManager;
-import dev.withergames.items.LegendaryWeapons;
-import dev.withergames.listeners.*;
-import dev.withergames.listeners.items.*;
+import dev.zxdzero.withergames.commands.*;
+import dev.zxdzero.withergames.commands.HeartsCommand;
+import dev.zxdzero.withergames.commands.ResetCommand;
+import dev.zxdzero.withergames.commands.TipCommand;
+import dev.zxdzero.withergames.items.Amulets;
+import dev.zxdzero.withergames.items.FactionWeapons;
+import dev.zxdzero.withergames.items.ItemsMenuManager;
+import dev.zxdzero.withergames.items.LegendaryWeapons;
+import dev.zxdzero.withergames.listeners.*;
+import dev.zxdzero.withergames.listeners.items.*;
 import dev.zxdzero.ZxdzeroEvents.registries.RecipeManager;
 import dev.zxdzero.ZxdzeroEvents.registries.RecipeManager.PedestalRecipe;
+import dev.zxdzero.withergames.listeners.*;
+import dev.zxdzero.withergames.listeners.items.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;

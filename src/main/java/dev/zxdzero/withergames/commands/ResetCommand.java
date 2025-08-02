@@ -1,4 +1,4 @@
-package dev.withergames.commands;
+package dev.zxdzero.withergames.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

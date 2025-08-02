@@ -1,4 +1,4 @@
-package dev.withergames.listeners;
+package dev.zxdzero.withergames.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

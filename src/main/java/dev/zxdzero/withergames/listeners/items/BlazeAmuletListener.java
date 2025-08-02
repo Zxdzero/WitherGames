@@ -1,6 +1,6 @@
-package dev.withergames.listeners.items;
+package dev.zxdzero.withergames.listeners.items;
 
-import dev.withergames.withergames;
+import dev.zxdzero.withergames.withergames;
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.damage.DamageType;

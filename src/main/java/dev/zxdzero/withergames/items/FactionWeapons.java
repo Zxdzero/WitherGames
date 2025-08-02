@@ -1,6 +1,6 @@
-package dev.withergames.items;
+package dev.zxdzero.withergames.items;
 
-import dev.withergames.withergames;
+import dev.zxdzero.withergames.withergames;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;

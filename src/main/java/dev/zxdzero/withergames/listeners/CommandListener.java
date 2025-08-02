@@ -1,4 +1,4 @@
-package dev.withergames.listeners;
+package dev.zxdzero.withergames.listeners;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
