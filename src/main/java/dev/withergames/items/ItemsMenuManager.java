@@ -1,7 +1,7 @@
 package dev.withergames.items;
 
 import dev.withergames.withergames;
-import dev.zxdzero.registries.ItemMenuRegistry;
+import dev.zxdzero.ZxdzeroEvents.registries.ItemMenuRegistry;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
