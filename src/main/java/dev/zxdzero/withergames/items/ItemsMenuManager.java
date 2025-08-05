@@ -87,12 +87,9 @@ public class ItemsMenuManager implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
 
-        String title = event.getView().getOriginalTitle();
-
-        System.out.println(title);
-
+        Component title = event.getView().title();
         // Handle the main WitherGames Items menu (replicates original /item command behavior)
-        if (title.equals("Withergames Items")) {
+        if (title.equals(Component.text("Withergames Items"))) {
             event.setCancelled(true); // Prevent taking the buttons
 
             if (event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.AMETHYST_BLOCK) {
