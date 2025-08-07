@@ -1,5 +1,5 @@
 name: withergames
-version: '8.3.2'
+version: '8.3.3'
 main: dev.zxdzero.withergames.withergames
 authors: [Puzzle_Dude98]
 api-version: '1.21'
@@ -14,6 +14,3 @@ commands:
   items:
     usage: /items
     permission: withergames.command.items
-  reset:
-    usage: /reset [amulet|faction_weapon]
-    permission: withergames.command.reset

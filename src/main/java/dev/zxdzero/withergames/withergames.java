@@ -1,8 +1,6 @@
 package dev.zxdzero.withergames;
 
-import dev.zxdzero.withergames.commands.*;
 import dev.zxdzero.withergames.commands.HeartsCommand;
-import dev.zxdzero.withergames.commands.ResetCommand;
 import dev.zxdzero.withergames.commands.TipCommand;
 import dev.zxdzero.withergames.items.Amulets;
 import dev.zxdzero.withergames.items.FactionWeapons;
@@ -12,8 +10,6 @@ import dev.zxdzero.withergames.listeners.*;
 import dev.zxdzero.withergames.listeners.items.*;
 import dev.zxdzero.ZxdzeroEvents.registries.RecipeManager;
 import dev.zxdzero.ZxdzeroEvents.registries.RecipeManager.PedestalRecipe;
-import dev.zxdzero.withergames.listeners.*;
-import dev.zxdzero.withergames.listeners.items.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -73,7 +69,6 @@ public final class withergames extends JavaPlugin {
 
         getCommand("tip").setExecutor(new TipCommand());
         getCommand("hearts").setExecutor(new HeartsCommand());
-        getCommand("reset").setExecutor(new ResetCommand());
 
         ItemsMenuManager.registerMenus();
 
