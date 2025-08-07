@@ -43,8 +43,7 @@ public final class withergames extends JavaPlugin {
         return plugin;
     }
 
-    public static NamespacedKey damageKey;
-    public static NamespacedKey speedKey;
+
 
     private boolean showWorthiness;
 
@@ -53,8 +52,6 @@ public final class withergames extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
-        damageKey = new NamespacedKey(plugin, "attack_damage");
-        speedKey = new NamespacedKey(plugin, "attack_speed");
 
         getServer().getPluginManager().registerEvents(new PlayerKillListener(), this);
         getServer().getPluginManager().registerEvents(new EntityPotionEffectListener(), this);
@@ -152,39 +149,6 @@ public final class withergames extends JavaPlugin {
         if (amount > 0) {
             target.setHealth(target.getHealth() + amount);
         }
-    }
-
-    public static List<Component> loreBuilder(List<String> lore) {
-        List<Component> list = new ArrayList<>();
-        for (int i = 0; i < lore.size(); i++) {
-            Component component = Component.text(" - " + lore.get(i), NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false);
-            list.add(component);
-        }
-
-        return list;
-    }
-
-    public static ItemMeta weaponBuilder(ItemMeta meta, int attackDamage, double attackSpeed) {
-        meta.addAttributeModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
-                withergames.damageKey,
-                attackDamage,
-                AttributeModifier.Operation.ADD_NUMBER,
-                EquipmentSlotGroup.MAINHAND
-        ));
-        meta.addAttributeModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
-                withergames.speedKey,
-                attackSpeed - 4.0,
-                AttributeModifier.Operation.ADD_NUMBER,
-                EquipmentSlotGroup.MAINHAND
-        ));
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        meta.lore(List.of(
-                Component.text(""),
-                Component.text("When in Main Hand:", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
-                Component.text(" " + attackDamage + " Attack Damage", NamedTextColor.DARK_GREEN).decoration(TextDecoration.ITALIC, false),
-                Component.text(" " + attackSpeed +  " Attack Speed", NamedTextColor.DARK_GREEN).decoration(TextDecoration.ITALIC, false)
-        ));
-        return meta;
     }
 
     @Override

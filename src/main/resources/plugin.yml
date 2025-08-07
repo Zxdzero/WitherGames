@@ -1,5 +1,5 @@
 name: withergames
-version: '8.3.3'
+version: ${version}
 main: dev.zxdzero.withergames.withergames
 authors: [Puzzle_Dude98]
 api-version: '1.21'

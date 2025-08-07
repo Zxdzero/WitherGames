@@ -1,5 +1,6 @@
 package dev.zxdzero.withergames.items;
 
+import dev.zxdzero.ZxdzeroEvents.ItemHelper;
 import dev.zxdzero.ZxdzeroEvents.registries.ItemActionRegistry;
 import dev.zxdzero.withergames.withergames;
 import net.kyori.adventure.text.Component;
@@ -203,7 +204,7 @@ public class FactionWeapons {
         CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
         customModelData.setFloats(List.of(2001f));
         meta.setCustomModelDataComponent(customModelData);
-        meta.lore(withergames.loreBuilder(List.of(
+        meta.lore(ItemHelper.loreBuilder(List.of(
                 "5 rapid fire poison darts"
         )));
         gun.setItemMeta(meta);
@@ -218,8 +219,8 @@ public class FactionWeapons {
         CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
         customModelData.setFloats(List.of(2002f));
         meta.setCustomModelDataComponent(customModelData);
-        meta = withergames.weaponBuilder(meta, 7, 1.6);
-        meta.lore(withergames.loreBuilder(List.of(
+        meta = ItemHelper.weaponBuilder(meta, 7, 1.6);
+        meta.lore(ItemHelper.loreBuilder(List.of(
                 "Sweeping attack",
                 "Makes the ground slick"
         )));
@@ -234,7 +235,7 @@ public class FactionWeapons {
         CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
         customModelData.setFloats(List.of(2003f));
         meta.setCustomModelDataComponent(customModelData);
-        meta.lore(withergames.loreBuilder(List.of(
+        meta.lore(ItemHelper.loreBuilder(List.of(
                 "Speed 5 for quick getaway",
                 "Weakness 5"
         )));
@@ -250,8 +251,8 @@ public class FactionWeapons {
         CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
         customModelData.setFloats(List.of(2004f));
         meta.setCustomModelDataComponent(customModelData);
-        meta = withergames.weaponBuilder(meta, 6, 2.0);
-        meta.lore(withergames.loreBuilder(List.of(
+        meta = ItemHelper.weaponBuilder(meta, 6, 2.0);
+        meta.lore(ItemHelper.loreBuilder(List.of(
                 "Temporary invisibility"
         )));
         knife.setItemMeta(meta);

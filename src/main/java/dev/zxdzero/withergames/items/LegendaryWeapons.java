@@ -1,5 +1,6 @@
 package dev.zxdzero.withergames.items;
 
+import dev.zxdzero.ZxdzeroEvents.ItemHelper;
 import dev.zxdzero.withergames.listeners.items.SoulCanisterListener;
 import dev.zxdzero.withergames.withergames;
 import net.kyori.adventure.text.Component;
@@ -26,7 +27,7 @@ public class LegendaryWeapons {
         CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
         customModelData.setFloats(List.of(3001f));
         meta.setCustomModelDataComponent(customModelData);
-        meta.lore(withergames.loreBuilder(List.of(
+        meta.lore(ItemHelper.loreBuilder(List.of(
                 "Gain a new enchantment every 10 blocks"
         )));
         meta.getPersistentDataContainer().set(wonderKey, PersistentDataType.INTEGER, 0);
@@ -60,7 +61,7 @@ public class LegendaryWeapons {
         customModelData.setFloats(List.of(3003f));
         meta.setCustomModelDataComponent(customModelData);
         SoulCanisterListener.updateItemDisplay(meta, 0);
-        meta = withergames.weaponBuilder(meta, 12, 1);
+        meta = ItemHelper.weaponBuilder(meta, 12, 1);
         meta.lore().add(Component.text(" - Right click to cleave surroundings", NamedTextColor.GOLD));
         meta.getPersistentDataContainer().set(soulKey, PersistentDataType.INTEGER, 0);
         megatonis.setItemMeta(meta);

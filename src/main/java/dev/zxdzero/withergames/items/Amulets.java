@@ -1,5 +1,6 @@
 package dev.zxdzero.withergames.items;
 
+import dev.zxdzero.ZxdzeroEvents.ItemHelper;
 import dev.zxdzero.withergames.withergames;
 import dev.zxdzero.ZxdzeroEvents.registries.ItemActionRegistry;
 import net.kyori.adventure.text.Component;
@@ -209,7 +210,7 @@ public final class Amulets {
         CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
         customModelData.setFloats(List.of(1001f));
         meta.setCustomModelDataComponent(customModelData);
-        meta.lore(withergames.loreBuilder(List.of(
+        meta.lore(ItemHelper.loreBuilder(List.of(
                 "6 absorption hearts",
                 "Regen for 5 seconds"
         )));
@@ -225,7 +226,7 @@ public final class Amulets {
         CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
         customModelData.setFloats(List.of(1002f));
         meta.setCustomModelDataComponent(customModelData);
-        meta.lore(withergames.loreBuilder(List.of(
+        meta.lore(ItemHelper.loreBuilder(List.of(
                 "When right clicked | Gives user 60 seconds of blaze powers.",
                 "Flaming attacks",
                 "Fire resistance"
@@ -242,7 +243,7 @@ public final class Amulets {
         CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
         customModelData.setFloats(List.of(1003f));
         meta.setCustomModelDataComponent(customModelData);
-        meta.lore(withergames.loreBuilder(List.of(
+        meta.lore(ItemHelper.loreBuilder(List.of(
                 "Spew forth powder snow"
         )));
         amulet.setItemMeta(meta);
@@ -257,7 +258,7 @@ public final class Amulets {
         CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
         customModelData.setFloats(List.of(1004f));
         meta.setCustomModelDataComponent(customModelData);
-        meta.lore(withergames.loreBuilder(List.of(
+        meta.lore(ItemHelper.loreBuilder(List.of(
                 "Ring of void damage",
                 "12x12 area"
         )));
