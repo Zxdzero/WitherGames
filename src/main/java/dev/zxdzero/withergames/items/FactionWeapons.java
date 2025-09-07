@@ -2,6 +2,7 @@ package dev.zxdzero.withergames.items;
 
 import dev.zxdzero.ZxdzeroEvents.ItemHelper;
 import dev.zxdzero.ZxdzeroEvents.registries.ItemActionRegistry;
+import dev.zxdzero.ZxdzeroEvents.tooltip.Tooltip;
 import dev.zxdzero.withergames.withergames;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -204,9 +205,7 @@ public class FactionWeapons {
         CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
         customModelData.setFloats(List.of(2001f));
         meta.setCustomModelDataComponent(customModelData);
-        meta.lore(ItemHelper.loreBuilder(List.of(
-                "5 rapid fire poison darts"
-        )));
+        meta.lore(List.of(Tooltip.RIGHT_CLICK.toComponent("(hold) to load"), Tooltip.RIGHT_CLICK.toComponent("to rapid fire poison darts")));
         gun.setItemMeta(meta);
 
         return gun;
@@ -220,10 +219,7 @@ public class FactionWeapons {
         customModelData.setFloats(List.of(2002f));
         meta.setCustomModelDataComponent(customModelData);
         meta = ItemHelper.weaponBuilder(meta, 7, 1.6);
-        meta.lore(ItemHelper.loreBuilder(List.of(
-                "Sweeping attack",
-                "Makes the ground slick"
-        )));
+        meta.lore(List.of(Tooltip.RIGHT_CLICK.toComponent("to sweep attack")));
         scythe.setItemMeta(meta);
         return scythe;
     }
@@ -235,10 +231,7 @@ public class FactionWeapons {
         CustomModelDataComponent customModelData = meta.getCustomModelDataComponent();
         customModelData.setFloats(List.of(2003f));
         meta.setCustomModelDataComponent(customModelData);
-        meta.lore(ItemHelper.loreBuilder(List.of(
-                "Speed 5 for quick getaway",
-                "Weakness 5"
-        )));
+        meta.lore(List.of(Tooltip.RIGHT_CLICK.toComponent("to boost your speed at the cost of getting weaker")));
         feather.setItemMeta(meta);
 
         return feather;
@@ -252,9 +245,7 @@ public class FactionWeapons {
         customModelData.setFloats(List.of(2004f));
         meta.setCustomModelDataComponent(customModelData);
         meta = ItemHelper.weaponBuilder(meta, 6, 2.0);
-        meta.lore(ItemHelper.loreBuilder(List.of(
-                "Temporary invisibility"
-        )));
+        meta.lore(List.of(Tooltip.RIGHT_CLICK.toComponent("to gain temporarily invisibility")));
         knife.setItemMeta(meta);
 
         return knife;

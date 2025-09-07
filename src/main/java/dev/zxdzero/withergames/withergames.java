@@ -1,5 +1,6 @@
 package dev.zxdzero.withergames;
 
+import dev.zxdzero.ZxdzeroEvents.registries.Util;
 import dev.zxdzero.withergames.commands.HeartsCommand;
 import dev.zxdzero.withergames.commands.TipCommand;
 import dev.zxdzero.withergames.items.Amulets;
@@ -64,6 +65,7 @@ public final class withergames extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SoulCanisterListener(), this);
         getServer().getPluginManager().registerEvents(new ItemsMenuManager(), this);
 
+        if (!Util.sessionCheck()) return;
         getCommand("tip").setExecutor(new TipCommand());
         getCommand("hearts").setExecutor(new HeartsCommand());
 

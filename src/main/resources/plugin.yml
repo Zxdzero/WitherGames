@@ -3,7 +3,7 @@ version: ${version}
 main: dev.zxdzero.withergames.withergames
 authors: [Puzzle_Dude98]
 api-version: '1.21'
-depend: [Vault, ZxdzeroEvents]
+depend: [Vault, ZxdzeroEvents, MinecraftSession]
 commands:
   tip:
     description: Tips your arrows (if you are at 75% worthiness)
